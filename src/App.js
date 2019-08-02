@@ -1,35 +1,32 @@
-import React, { useState } from 'react'
+import React, { useReducer, useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { TodoInput, TodoItem } from './components';
 import { Container } from 'react-bootstrap';
+import { ADD_TODO, REMOVE_TODO, reducer } from './reducers/TodoReducer';
 
 
 const App = () => {
-  const [todos, setTodos] = useState([]);
-  
+  const [state, dispatch] = useReducer(reducer, { todos: [] });
+
   const addTodo = todo => {
-    const newTodos = [...todos, todo];
-    setTodos(newTodos);
+    dispatch({ type: ADD_TODO, payload: todo });
   };
 
   const deleteTodo = todo => {
-    const newTodos = [...todos];
-    const selectedIndex = newTodos.findIndex(e => e.id === todo.id);
-    newTodos.splice(selectedIndex, 1);
-    setTodos(newTodos);
+    dispatch({ type: REMOVE_TODO, payload: todo });
   };
 
-    const todoComponents = todos.map(e => <TodoItem todo={e} deleteTodo={deleteTodo} />);
+  const todoComponents = state.todos.map(e => <TodoItem todo={e} deleteTodo={deleteTodo}/>);
 
-    return (
-      <Container>
-        <h1>Todo App using Hooks</h1>
-        <TodoInput addTodo={addTodo} />
-        <div className="d-flex flex-column justify-content-center align-items-center">
-          {todoComponents}
-        </div>
-      </Container>
-    )
+  return (
+    <Container>
+      <h1>Todo App using Hooks</h1>
+      <TodoInput addTodo={addTodo}/>
+      <div className="d-flex flex-column justify-content-center align-items-center">
+        {todoComponents}
+      </div>
+    </Container>
+  )
 };
 
 export default App;

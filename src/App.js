@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { TodoInput, TodoItem } from './components';
 import { Container } from 'react-bootstrap';
 import { ADD_TODO, REMOVE_TODO, reducer } from './reducers/TodoReducer';
+import ReactiveComponent from "./components/ReactiveComponent";
 
 
 const App = () => {
@@ -25,6 +26,7 @@ const App = () => {
       <div className="d-flex flex-column justify-content-center align-items-center">
         {todoComponents}
       </div>
+      <ReactiveComponent todos={state.todos}/>
     </Container>
   )
 };

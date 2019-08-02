@@ -1,41 +1,35 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { TodoInput, TodoItem } from './components';
 import { Container } from 'react-bootstrap';
 
 
-export default class App extends Component {
-  state = {
-    todos: [],
-  }
+const App = () => {
+  const [todos, setTodos] = useState([]);
   
-  addTodo = todo => {
-    const { todos } = this.state;
+  const addTodo = todo => {
     const newTodos = [...todos, todo];
-    this.setState({ todos: newTodos });
+    setTodos(newTodos);
   };
 
-  deleteTodo = todo => {
-    const { todos } = this.state;
+  const deleteTodo = todo => {
     const newTodos = [...todos];
     const selectedIndex = newTodos.findIndex(e => e.id === todo.id);
     newTodos.splice(selectedIndex, 1);
-    this.setState({ todos: newTodos });
-  }
+    setTodos(newTodos);
+  };
 
-  render() {
-    const { todos } = this.state;
-
-    const todoComponents = todos.map(e => <TodoItem todo={e} deleteTodo={this.deleteTodo} />);
+    const todoComponents = todos.map(e => <TodoItem todo={e} deleteTodo={deleteTodo} />);
 
     return (
       <Container>
         <h1>Todo App using Hooks</h1>
-        <TodoInput addTodo={this.addTodo} />
+        <TodoInput addTodo={addTodo} />
         <div className="d-flex flex-column justify-content-center align-items-center">
           {todoComponents}
         </div>
       </Container>
     )
-  }
-}
+};
+
+export default App;
